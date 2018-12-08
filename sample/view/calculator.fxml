@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button.*?>
+<?import javafx.scene.control.TextField.*?>
+<?import javafx.scene.layout.BorderPane.*?>
+<?import javafx.scene.layout.ColumnConstraints.*?>
+<?import javafx.scene.layout.GridPane.*?>
+<?import javafx.scene.layout.RowConstraints.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.Controller">
+    <top>
+        <TextField BorderPane.alignment="CENTER" fx:id="field"/>
+    </top>
+    <center>
+        <GridPane BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="MC" onAction="#onMCIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="M+" GridPane.columnIndex="1"
+                        onAction="#onMCPlusIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="M-" GridPane.columnIndex="2"
+                        onAction="#onMCMinusIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="MR" GridPane.columnIndex="3"
+                        onAction="#onMRIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="C" GridPane.rowIndex="1"
+                        onAction="#onCIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="+ -" GridPane.columnIndex="1"
+                        GridPane.rowIndex="1" onAction="#onPlusMinusIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="/" GridPane.columnIndex="2"
+                        GridPane.rowIndex="1" onAction="#onDivisionIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="X" GridPane.columnIndex="3"
+                        GridPane.rowIndex="1" onAction="#onMultiplyIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="7" GridPane.rowIndex="2"
+                        onAction="#on7IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="8" GridPane.columnIndex="1"
+                        GridPane.rowIndex="2" onAction="#on8IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="9" GridPane.columnIndex="2"
+                        GridPane.rowIndex="2" onAction="#on9IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="-" GridPane.columnIndex="3"
+                        GridPane.rowIndex="2" onAction="#onMinusIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="4" GridPane.rowIndex="3"
+                        onAction="#on4IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="5" GridPane.columnIndex="1"
+                        GridPane.rowIndex="3" onAction="#on5IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="6" GridPane.columnIndex="2"
+                        GridPane.rowIndex="3" onAction="#on6IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="+" GridPane.columnIndex="3"
+                        GridPane.rowIndex="3" onAction="#onPlusIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="1" GridPane.rowIndex="4"
+                        onAction="#on1IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="2" GridPane.columnIndex="1"
+                        GridPane.rowIndex="4" onAction="#on2IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="3" GridPane.columnIndex="2"
+                        GridPane.rowIndex="4" onAction="#on3IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" text="." GridPane.columnIndex="2"
+                        GridPane.rowIndex="5" onAction="#onPointIsClick"/>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="294.0" text="0" GridPane.columnSpan="2"
+                        GridPane.rowIndex="5" onAction="#on0IsClick"/>
+                <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="108.0" text="=" GridPane.columnIndex="3"
+                        GridPane.rowIndex="4" GridPane.rowSpan="2" onAction="#onEqualIsClick"/>
+            </children>
+        </GridPane>
+    </center>
+</BorderPane>
