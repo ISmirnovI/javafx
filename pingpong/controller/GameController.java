@@ -10,7 +10,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import java.util.Random;
 
 public class GameController {
     @FXML
@@ -24,18 +23,20 @@ public class GameController {
 
     private Timeline timeline;
 
-    double centerTableY;
-
     double limitPaddleTopY;
     double limitPaddleBottomY;
 
-    double initialSecondPlayerPaddleY;
+    double limitLeftSideX;
+    double limitRightSideX;
+    double limitBottomBallY;
 
     int paddleSpeed = 8;
-    int ballSpeed = 3;
+    int ballSpeedX = 2;
+    int ballSpeedY = 2;
 
-    DoubleProperty ballCenterX = new SimpleDoubleProperty();
-    DoubleProperty ballCenterY = new SimpleDoubleProperty();
+
+    DoubleProperty currentBallY = new SimpleDoubleProperty();
+    DoubleProperty currentBallX = new SimpleDoubleProperty();
 
     DoubleProperty currentFirstPlayerPaddleY = new SimpleDoubleProperty();
     DoubleProperty currentSecondPlayerPaddleY = new SimpleDoubleProperty();
@@ -43,23 +44,27 @@ public class GameController {
     @FXML
     public void initialize() {
         System.out.println("GameController's ready. Let's bind some components");
+
+        currentBallX.set(ball.getLayoutX());
+        ball.layoutXProperty().bind(currentBallX);
+
+        currentBallY.set(ball.getLayoutY());
+        ball.layoutYProperty().bind(currentBallY);
+
+
         currentFirstPlayerPaddleY.set(firstPlayerPaddle.getLayoutY());
         firstPlayerPaddle.layoutYProperty().bind(currentFirstPlayerPaddleY);
 
-        initialSecondPlayerPaddleY = secondPlayerPaddle.getLayoutY();
-        currentSecondPlayerPaddleY.set(initialSecondPlayerPaddleY);
+        currentSecondPlayerPaddleY.set(secondPlayerPaddle.getLayoutY());
         secondPlayerPaddle.layoutYProperty().bind(currentSecondPlayerPaddleY);
 
-        limitPaddleTopY = paddleSpeed;
+        limitPaddleTopY = paddleSpeed -10;
         limitPaddleBottomY = field.getHeight() - firstPlayerPaddle.getHeight() - paddleSpeed;
 
-        ballCenterX.set(ball.getCenterX());
-        ballCenterY.set(ball.getCenterY());
+        limitBottomBallY = field.getHeight();
 
-        ball.centerXProperty().bind(ballCenterX);
-        ball.centerYProperty().bind(ballCenterY);
-
-        centerTableY = field.getHeight()/2;
+        limitLeftSideX = 0;
+        limitRightSideX = field.getWidth();
     }
 
     public void listeners(KeyEvent keyEvent) {
@@ -87,96 +92,41 @@ public class GameController {
     }
 
     private void moveTheBall() {
-        Random randomYGenerator = new Random();
-
-        double randomY = randomYGenerator.nextInt(ballSpeed);
-
-        final boolean serveFromTop = (ballCenterY.get() <= centerTableY)?true:false;
 
         KeyFrame keyFrame = new KeyFrame(new Duration(10), event -> {
-            if (ballCenterX.get() >= -20) {
-                ballCenterX.set(ballCenterX.get() - ballSpeed);
+            currentBallY.set(currentBallY.get() + ballSpeedY);
+            currentBallX.set(currentBallX.get() + ballSpeedX);
+            checkBallWallContact();
+            checkBallPaddle1Contact();
+            checkBallPaddle2Contact();
+        }
 
-                if (serveFromTop) {
-                    ballCenterY.set(ballCenterY.get() + randomY);
-                    currentSecondPlayerPaddleY.set( currentSecondPlayerPaddleY.get() + 1);
-
-                }
-
-                else {
-                    ballCenterY.set(ballCenterY.get() - randomY);
-
-                    currentSecondPlayerPaddleY.set(currentSecondPlayerPaddleY.get() - 1);
-                }
-
-                if(checkBallPaddleContact(secondPlayerPaddle)){
-                    timeline.stop();
-                    currentSecondPlayerPaddleY.set(initialSecondPlayerPaddleY);
-                    bounceTheBall();
-                }
-
-            }
-            else {
-                timeline.stop();
-                currentSecondPlayerPaddleY.set(initialSecondPlayerPaddleY);
-            }
-            updateScore();
-        });
-
-
+        );
         timeline = new Timeline(keyFrame);
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         timeline.play();
     }
 
-    private boolean checkBallPaddleContact(Rectangle paddle){
-        if (ball.intersects(paddle.getBoundsInParent())){
-            return true;
-        } else {
-            return false;
+    private void checkBallWallContact(){
+        if((currentBallX.get() <= ball.getRadius()||(currentBallX.get() >= limitRightSideX - ball.getRadius()))){
+           ballSpeedX = ballSpeedX * (-1);
+        }
+        if((currentBallY.get() <= limitPaddleTopY + ball.getRadius()||(currentBallY.get() >= limitBottomBallY - ball.getRadius()))){
+            ballSpeedY = ballSpeedY * (-1);
+        }
+    }
+    private void checkBallPaddle1Contact(){
+        if((currentBallX.get() >= secondPlayerPaddle.getLayoutX() - secondPlayerPaddle.getWidth()/2)&&((currentBallY.get() <= currentSecondPlayerPaddleY.get() + secondPlayerPaddle.getHeight()/2)&&(currentBallY.get() >= currentSecondPlayerPaddleY.get()  - secondPlayerPaddle.getHeight()/2))){
+            ballSpeedX = ballSpeedX * (-1);
+        }
+    }
+    private void checkBallPaddle2Contact(){
+        if((currentBallX.get() <= firstPlayerPaddle.getLayoutX() + firstPlayerPaddle.getWidth()/2)&&((currentBallY.get() <= currentFirstPlayerPaddleY.get() + firstPlayerPaddle.getHeight()/2)&&(currentBallY.get() >= currentFirstPlayerPaddleY.get()  - firstPlayerPaddle.getHeight()/2))){
+            ballSpeedX = ballSpeedX * (-1);
         }
     }
 
-    private void bounceTheBall() {
-        double theBallOffTheTableX = field.getWidth() + 20;
-
-        KeyFrame keyFrame = new KeyFrame(new Duration(10), event -> {
-
-            if (ballCenterX.get() < theBallOffTheTableX) {
-                ballCenterX.set(ballCenterX.get() + ballSpeed);
-                if (checkBallPaddleContact(firstPlayerPaddle)){
-                    timeline.stop();
-                    moveTheBall();
-                }
-
-            }
-            else {
-                timeline.stop();
-            }
-            updateScore();
-        });
-
-        timeline = new Timeline(keyFrame);
-        timeline.setCycleCount(Timeline.INDEFINITE);
-
-        timeline.play();
-    }
-
-    private void updateScore(){
-        int secondPlayerScore = 0;
-        int firstPlayerScore = 0;
-        if (ballCenterX.get() > field.getWidth()){
-            secondPlayerScore ++;
-        } else if (ballCenterY.get() > 0 && ballCenterY.get() <= field.getHeight()){
-            firstPlayerScore++;
-        } else{
-            secondPlayerScore++;
-        }
-
-
-        System.out.println("2 Player: " + secondPlayerScore + " -:::- 1 player: " + firstPlayerScore);
-    }
 
     private void caseUp() {
         if (currentSecondPlayerPaddleY.get() > limitPaddleTopY) {
@@ -203,10 +153,9 @@ public class GameController {
         }
     }
 
-    private void caseT() {
-        ballCenterY.set(currentFirstPlayerPaddleY.doubleValue() + firstPlayerPaddle.getHeight()/2);
-        ballCenterX.set(firstPlayerPaddle.getLayoutX());
+    private void caseT(){
         moveTheBall();
     }
 
 }
+
