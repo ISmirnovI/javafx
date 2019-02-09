@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<Group xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pingpong.controller.GameController" onKeyPressed="#listeners" >
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="489.0" layoutX="-6.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="809.0" fx:id="field"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#52585e" height="90.0" layoutX="-1.0" layoutY="188.0" stroke="BLACK" strokeType="INSIDE" width="12.0" fx:id="firstPlayerPaddle"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#52585e" height="90.0" layoutX="791.0" layoutY="188.0" stroke="BLACK" strokeType="INSIDE" width="12.0" fx:id="secondPlayerPaddle"/>
+        <Circle fill="#acb3b9" layoutX="400.5" layoutY="233.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" fx:id="ball"/>
+        <Text fill="BLACK" strokeType="INSIDE" strokeWidth="0.0" text="0 : 0" textAlignment="CENTER" layoutX="360" layoutY="50" wrappingWidth="80" fx:id="score">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Text>
+    </children>
+</Group>
